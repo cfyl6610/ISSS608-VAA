@@ -2,3 +2,16 @@
 title: "Hands-on Exercise 2"
 author: "FU YILIN"
 ---
+
+Getting Started
+
+```{r}
+
+pacman::p_load(ggrepel, patchwork, 
+               ggthemes, hrbrthemes,
+               tidyverse) 
+```
+
+```{r}
+exam_data <- read_csv("Data/Exam_data.csv")
+```
