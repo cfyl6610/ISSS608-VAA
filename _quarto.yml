@@ -1,5 +1,11 @@
 project:
   type: website
+  output-dir: _site
+  files:
+    - index.qmd
+    - about.qmd
+    - Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.qmd
+    - Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.qmd
 
 website:
   title: "ISSS608-VAA"
