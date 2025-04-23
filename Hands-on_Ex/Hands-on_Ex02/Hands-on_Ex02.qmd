@@ -36,7 +36,7 @@ ggplot(data=exam_data,
   ggtitle("English scores versus Maths scores for Primary 3")
 ```
 
-Working with ggrepel 
+Working with ggrepel
 
 ```{r}
 ggplot(data=exam_data, 
@@ -77,4 +77,3 @@ ggplot(data=exam_data,
   ggtitle("Distribution of Maths scores") +
   theme_economist()
 ```
-
