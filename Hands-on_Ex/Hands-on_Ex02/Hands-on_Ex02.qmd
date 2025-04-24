@@ -3,9 +3,9 @@ title: "Hands-on Exercise 2"
 author: "FU YILIN"
 ---
 
-# Getting Started 
+# Getting Started
 
-### **Installing and loading the required librarie**
+### **Installing and loading the required libraries**
 
 ```{r}
 
