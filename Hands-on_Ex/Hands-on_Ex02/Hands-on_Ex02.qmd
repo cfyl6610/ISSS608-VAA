@@ -28,7 +28,7 @@ exam_data <- read_csv("Data/Exam_data.csv")
 
 # **2. Enhancing ggplot2 Annotations with ggrepel**
 
-## 2.1 Base geom_label Annotation 
+## 2.1 Base geom_label Annotation
 
 First, let’s plot English vs. Maths scores using base ggplot2 annotation with geom_label.
 
