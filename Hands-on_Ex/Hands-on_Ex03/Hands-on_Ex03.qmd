@@ -130,6 +130,44 @@ girafe(ggobj = gg_point,
        height_svg = 8*0.618)
 ```
 
+### 
+
+::: {.callout-note title="Things to learn from the code chunk above"}
+-   replace the size argument with linewidth in`geom = "errorbar"`layer to resolve the warning.
+-   Explanation
+    -   size used to control the thickness of lines in earlier ggplot2 versions.
+    -   Since ggplot2 v3.4.0, size is reserved for point sizes, and linewidth should be used for line thickness to improve clarity and consistency.
+:::
+
+Here is the corrected version of the code:
+
+```{r}
+tooltip <- function(y, ymax, accuracy = .01) {
+  mean <- scales::number(y, accuracy = accuracy)
+  sem <- scales::number(ymax - y, accuracy = accuracy)
+  paste("Mean maths scores:", mean, "+/-", sem)
+}
+
+gg_point <- ggplot(data=exam_data, 
+                   aes(x = RACE),
+) +
+  stat_summary(aes(y = MATHS, 
+                   tooltip = after_stat(  
+                     tooltip(y, ymax))),  
+    fun.data = "mean_se", 
+    geom = GeomInteractiveCol,  
+    fill = "light blue"
+  ) +
+  stat_summary(aes(y = MATHS),
+    fun.data = mean_se,
+    geom = "errorbar", width = 0.2, linewidth = 0.2
+)
+
+girafe(ggobj = gg_point,
+       width_svg = 8,
+       height_svg = 8*0.618)
+```
+
 ### 1.3.5 Hover Effect with data_id
 
 Implement visual effects such as highlighting and opacity change on hover.
