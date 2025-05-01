@@ -133,7 +133,7 @@ girafe(ggobj = gg_point,
 ### 
 
 ::: {.callout-note title="Things to learn from the code chunk above"}
--   replace the size argument with linewidth in`geom = "errorbar"`layer to resolve the warning.
+-   Replace the size argument with linewidth in`geom = "errorbar"`layer to resolve the warning.
 -   Explanation
     -   size used to control the thickness of lines in earlier ggplot2 versions.
     -   Since ggplot2 v3.4.0, size is reserved for point sizes, and linewidth should be used for line thickness to improve clarity and consistency.
@@ -311,6 +311,25 @@ plot_ly(data = exam_data,
              y = ~ENGLISH)
 ```
 
+::: {.callout-note title="Things to learn from the code chunk above"}
+-   `“No trace type specified”` mean we didn't specify what kind of plot we want, but since we gave x and y, it will assume we want a scatter plot. By default, it chooses `type = 'scatter'.`\
+-   `“No scatter mode specified: Setting the mode to markers”`means a scatter plot can have different “modes”, such as:
+    -   mode = 'markers' → only dots
+    -   mode = 'lines' → connected lines
+    -   mode = 'lines+markers' → both dots and lines
+    -   Since we didn’t specify a mode, Plotly chose: `mode = 'markers'` (i.e. dots only)
+:::
+
+If we want to be more explicit, here is the code:
+
+```{r}
+plot_ly(data = exam_data, 
+        x = ~MATHS, 
+        y = ~ENGLISH, 
+        type = 'scatter', 
+        mode = 'markers')
+```
+
 ### 1.4.2 Encoding by Race
 
 ```{r}
@@ -318,6 +337,17 @@ plot_ly(data = exam_data,
         x = ~ENGLISH, 
         y = ~MATHS, 
         color = ~RACE)
+```
+
+Similar to the note of previous code chunk, we can specify the trace type and mode to be more explicit:
+
+```{r}
+plot_ly(data = exam_data, 
+        x = ~ENGLISH, 
+        y = ~MATHS, 
+        color = ~RACE,
+        type = 'scatter', 
+        mode = 'markers')
 ```
 
 ### 1.4.3 ggplot Conversion
@@ -411,6 +441,25 @@ globalPop <- read_xls("Data/GlobalPopulation.xls",
   mutate(Year = as.integer(Year))
 ```
 
+::: {.callout-note title="Things to learn from the code chunk above"}
+-   We’re getting the above warning because we’re passing an external character `vector col` directly into `across()`, which uses `tidyselect` under the hood — and `tidyselect` no longer allows that syntax.
+-   Solution:
+    -   Use `all_of()` inside `across()`
+    -   Convert “Country” and “Continent” to factor (explicitly and correctly).
+    -   Convert “Year” column to integer.
+:::
+
+Updated code chunk:
+
+```{r}
+col <- c("Country", "Continent")
+
+globalPop <- read_xls("Data/GlobalPopulation.xls",
+                      sheet = "Data") %>%
+  mutate(across(all_of(col), as.factor)) %>%
+  mutate(Year = as.integer(Year))
+```
+
 ## 2.3 Animated Visualisation with gganimate
 
 ### **2.3.1 Building a static population bubble plot**
@@ -473,6 +522,46 @@ gg <- ggplot(globalPop,
 ggplotly(gg)
 ```
 
+::: {.callout-note title="Things to learn from the code chunk above"}
+-   The first warning we’re getting: `Ignoring unknown aesthetics: frame` is because `frame` is not a valid aesthetic in `ggplot2::geom_point()` — it only works in `Plotly` when building animations.
+-   Solution: Use `plotly::plot_ly()` directly for animations instead of `ggplot2::ggplot()`
+-   The second warning"Warning in p\$x\$data\[firstFrame\] \<- p\$x\$frames\[\[1\]\]\$data: number of items to replace is not a multiple of replacement length" happens because `ggplotly()` tries to generate frames from `ggplot` object, but it has no built-in animation logic, and `frame` was misused in the `aes()` mapping. So plotly’s frame structure is broken or inconsistent.
+:::
+
+We can use the code chunk below to get an interactive static bubble chart:
+
+```{r}
+gg <- ggplot(globalPop, 
+       aes(x = Old, 
+           y = Young, 
+           size = Population, 
+           colour = Country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_colour_manual(values = country_colors) +
+  scale_size(range = c(2, 12)) +
+  labs(x = '% Aged', 
+       y = '% Young')
+
+ggplotly(gg)
+```
+
+For animated version, we can switch to `plotly::plot_ly()`
+
+```{r}
+plot_ly(globalPop,
+        x = ~Old,
+        y = ~Young,
+        size = ~Population,
+        color = ~Country,
+        frame = ~Year,
+        text = ~paste("Country:", Country, "<br>Year:", Year, "<br>Pop:", Population),
+        type = 'scatter',
+        mode = 'markers',
+        sizes = c(10, 80)) %>%
+  layout(xaxis = list(title = "% Aged"),
+         yaxis = list(title = "% Young"))
+```
+
 ### 2.4.2 Fix Display Issues
 
 Fix layout issues and hide unnecessary legends to clean up the output.
@@ -513,6 +602,42 @@ bp <- globalPop %>%
           mode = 'markers'
           ) %>%
   layout(showlegend = FALSE)
+bp
+```
+
+::: {.callout-note title="Things to learn from the code chunk above"}
+-   We're seeing the repeated warning: `Warning: line.width does not currently support multiple values.`because `Plotly` is being asked to apply multiple `line.width` values (likely per-frame or per-point), but that property doesn’t support vectors — it expects a single value.
+-   When using `plot_ly()` with `frame = ~Year` (i.e., animation), each frame is a separate trace, and `Plotly` internally tries to apply styling (like `line.width`) across frames. If the dataset has more than one entry per frame, and it tries to assign a vector of widths, this warning appears.
+-   However — we’re not explicitly using `line.width` in the code, so it’s likely being set implicitly, possibly by an old or incompatible version of `Plotly R` or from system styles.
+:::
+
+We can explicitly define both `marker` and `symbol` in the plot, and remove `size = ~Population` from the main `aesthetic` — instead, control it entirely inside `marker`.
+
+```{r}
+library(plotly)
+
+bp <- plot_ly(globalPop,
+        x = ~Old,
+        y = ~Young,
+        frame = ~Year,
+        text = ~paste("Country:", Country, "<br>Population:", Population),
+        hoverinfo = "text",
+        type = "scatter",
+        mode = "markers",
+        color = ~Continent,
+        marker = list(
+          sizemode = "area",
+          sizeref = 2 * max(globalPop$Population, na.rm = TRUE) / (100^2),
+          size = ~Population,
+          line = list(width = 1)
+        ),
+        showlegend = FALSE
+) %>%
+  layout(
+    xaxis = list(title = "% Aged"),
+    yaxis = list(title = "% Young")
+  )
+
 bp
 ```
 
