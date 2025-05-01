@@ -24,6 +24,23 @@ website:
       menu:
         - text: "Take-home Exercise 1"
           href: "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html"
+        - text: "Take-home Exercise 2"
+          href: "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html"
+        - text: "Take-home Exercise 3"
+          href: "Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html"
+          
+    - text: "In-Class Exercise"
+      menu:
+        - text: "In-Class Exercise 1"
+          href: "In-Class_Ex/In-Class_Ex01/In-Class_Ex01.html"
+        - text: "In-Class Exercise 2"
+          href: "In-Class_Ex/In-Class_Ex02/In-Class_Ex02.html"
+        - text: "In-Class Exercise 3"
+          href: "In-Class_Ex/In-Class_Ex03/In-Class_Ex03.html"
+        - text: "In-Class Exercise 4"
+          href: "In-Class_Ex/In-Class_Ex04/In-Class_Ex04.html"
+        - text: "In-Class Exercise 5"
+          href: "In-Class_Ex/In-Class_Ex05/In-Class_Ex05.html"
         
         
     right:
@@ -33,7 +50,7 @@ website:
 
 format:
   html:
-    theme: yeti
+    theme: journal
     css: styles.css
     toc: true
 
