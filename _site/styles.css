@@ -1,36 +1,58 @@
 /* css styles */
 
 :root {
-  --bs-primary: #6f42c1;
-  --bs-secondary: #e0bbff;
-  --bs-body-bg: #f7f3fc;
-  --bs-body-color: #3d2464;
-  --bs-link-color: #7b2cbf;
+  --bs-primary: #c2185b;       /* 主色：深粉红 */
+  --bs-secondary: #f8bbd0;     /* 副色：浅粉 */
+  --bs-body-bg: #fff0f5;       /* 背景：淡粉红（类似薰衣草） */
+  --bs-body-color: #4a0033;    /* 正文字体颜色：深紫粉 */
+  --bs-link-color: #ad1457;    /* 链接颜色 */
 }
 
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
+  line-height: 1.6;
 }
 
 .navbar {
-  background-color: var(--bs-secondary) !important;
+  background-color: var(--bs-primary) !important;
 }
 
 .navbar a {
-  color: #4a148c !important;
+  color: #ffffff !important;
   font-weight: 500;
 }
 
-h1, h2, h3 {
-  color: #6f42c1;
+a {
+  color: var(--bs-link-color);
 }
 
 a:hover {
-  color: #9b59b6;
+  color: #e91e63;  /* hover 色：亮粉红 */
+}
+
+h1, h2, h3 {
+  color: var(--bs-primary);
 }
 
 .navbar-brand img {
   max-height: 40px;
+}
+
+/* 强化下拉菜单字体颜色 */
+
+.dropdown-menu {
+  background-color: #ffffff;        /* 可选：保持白色背景 */
+  color: #880e4f !important;        /* 更深的深粉色字体 */
+}
+
+.dropdown-menu a {
+  color: #880e4f !important;        /* 链接字体为深粉红 */
+  font-weight: 500;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f8bbd0;        /* hover 高亮粉色 */
+  color: #4a0033 !important;
 }
