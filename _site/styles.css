@@ -1,1 +1,36 @@
 /* css styles */
+
+:root {
+  --bs-primary: #6f42c1;
+  --bs-secondary: #e0bbff;
+  --bs-body-bg: #f7f3fc;
+  --bs-body-color: #3d2464;
+  --bs-link-color: #7b2cbf;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+.navbar {
+  background-color: var(--bs-secondary) !important;
+}
+
+.navbar a {
+  color: #4a148c !important;
+  font-weight: 500;
+}
+
+h1, h2, h3 {
+  color: #6f42c1;
+}
+
+a:hover {
+  color: #9b59b6;
+}
+
+.navbar-brand img {
+  max-height: 40px;
+}
