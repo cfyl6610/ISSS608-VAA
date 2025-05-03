@@ -193,7 +193,7 @@
     "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
     "title": "Take-home Exercise 1: Singapore Resident Population 2024",
     "section": "",
-    "text": "1 Overview\n1.1 Background\nSingapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset respopagesex2024.csv contains population counts by age, sex, planning area, and subzone, based on Singapore’s official population statistics for 2024. The visual analytics in this exercise aim to reveal key trends across demographics and geography.\n1.2 The Data\nThe dataset used is respopagesex2024.csv obtained from the Department of Statistics Singapore. It includes the following fields:\n2 Loading Packages\npacman::p_load(tidyverse, ggthemes, patchwork, knitr)\n3 Data Preparation\ndata &lt;- read_csv(\"Data/respopagesex2024.csv\") %&gt;%\n  mutate(Age = as.numeric(Age)) %&gt;%\n  drop_na(Age)\n\nRows: 60424 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): PA, SZ, Age, Sex\ndbl (2): Pop, Time\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nWarning: There was 1 warning in `mutate()`.\nℹ In argument: `Age = as.numeric(Age)`.\nCaused by warning:\n! NAs introduced by coercion\n4 Exploratory Data Analysis\n4.1 Age-Sex Pyramid\nThis population pyramid visualizes the age and gender distribution. Males are plotted on the left and females on the right, highlighting the dependency load and gender imbalance at older ages.\npyramid_data &lt;- data %&gt;%\n  group_by(Age, Sex) %&gt;%\n  summarise(Pop = sum(Pop), .groups = \"drop\") %&gt;%\n  mutate(Pop = if_else(Sex == \"Males\", -Pop, Pop))\n\npyramid_plot &lt;- ggplot(pyramid_data, aes(x = Age, y = Pop, fill = Sex)) +\n  geom_bar(stat = \"identity\", width = 1) +\n  coord_flip() +\n  scale_y_continuous(labels = abs) +\n  labs(title = \"Singapore Resident Population Pyramid (2024)\",\n       x = \"Age\", y = \"Population\") +\n  theme_minimal()\n\npyramid_plot\nObservations:\n4.2 Total Population by Planning Area\nWe aggregate population counts by planning area to identify high-density zones.\narea_data &lt;- data %&gt;%\n  group_by(PA) %&gt;%\n  summarise(Pop = sum(Pop), .groups = \"drop\") %&gt;%\n  arrange(desc(Pop))\n\narea_plot &lt;- ggplot(area_data, aes(x = reorder(PA, Pop), y = Pop)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(title = \"Population by Planning Area (2024)\",\n       x = \"Planning Area\", y = \"Population\") +\n  theme_minimal()\n\narea_plot\nObservations:\n4.3 Population by Age Group\nWe create custom age bands to evaluate demographic composition.\nage_group_data &lt;- data %&gt;%\n  mutate(AgeGroup = cut(Age,\n                        breaks = c(0,10,20,30,40,50,60,70,80,90,Inf),\n                        labels = c(\"0-9\", \"10-19\", \"20-29\", \"30-39\", \"40-49\",\n                                   \"50-59\", \"60-69\", \"70-79\", \"80-89\", \"90+\"),\n                        right = FALSE)) %&gt;%\n  group_by(AgeGroup) %&gt;%\n  summarise(Pop = sum(Pop), .groups = \"drop\")\n\nggplot(age_group_data, aes(x = AgeGroup, y = Pop)) +\n  geom_col(fill = \"darkgreen\") +\n  labs(title = \"Population by Age Group (2024)\", x = \"Age Group\", y = \"Population\") +\n  theme_minimal()\nObservations:"
+    "text": "Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset respopagesex2024.csv contains population counts by age, sex, planning area, and subzone, based on Singapore’s official population statistics for 2024. The visual analytics in this exercise aim to reveal key trends across demographics and geography.\n\n\n\nThe dataset used is respopagesex2024.csv obtained from the Department of Statistics Singapore. It includes the following fields:\n\nPA: Planning Area\nSZ: Subzone\nAge: Age in years (0 to 100+)\nSex: Males or Females\nPop: Population count\nAge-Sex Pyramid"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#top-10-most-populous-subzones",
@@ -201,5 +201,33 @@
     "title": "Take-home Exercise 1: Singapore Resident Population 2024",
     "section": "4.4 Top 10 Most Populous Subzones",
     "text": "4.4 Top 10 Most Populous Subzones\nWe identify the most densely populated subzones for finer-scale planning.\n\ntop_subzones &lt;- data %&gt;%\n  group_by(SZ) %&gt;%\n  summarise(Pop = sum(Pop), .groups = \"drop\") %&gt;%\n  slice_max(Pop, n = 10)\n\nggplot(top_subzones, aes(x = reorder(SZ, Pop), y = Pop)) +\n  geom_col(fill = \"tomato\") +\n  coord_flip() +\n  labs(title = \"Top 10 Most Populous Subzones (2024)\", x = \"Subzone\", y = \"Population\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\nObservations:\n\nHigh-density subzones often belong to mature estates.\nMay require targeted service scaling (e.g., schools, healthcare)."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#background",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#background",
+    "title": "Take-home Exercise 1: Singapore Resident Population 2024",
+    "section": "",
+    "text": "Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset respopagesex2024.csv contains population counts by age, sex, planning area, and subzone, based on Singapore’s official population statistics for 2024. The visual analytics in this exercise aim to reveal key trends across demographics and geography."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#the-data",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#the-data",
+    "title": "Take-home Exercise 1: Singapore Resident Population 2024",
+    "section": "",
+    "text": "The dataset used is respopagesex2024.csv obtained from the Department of Statistics Singapore. It includes the following fields:\n\nPA: Planning Area\nSZ: Subzone\nAge: Age in years (0 to 100+)\nSex: Males or Females\nPop: Population count\nAge-Sex Pyramid"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#total-population-by-planning-area",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#total-population-by-planning-area",
+    "title": "Take-home Exercise 1: Singapore Resident Population 2024",
+    "section": "4.2 Total Population by Planning Area",
+    "text": "4.2 Total Population by Planning Area\nWe aggregate population counts by planning area to identify high-density zones.\n\narea_data &lt;- data %&gt;%\n  group_by(PA) %&gt;%\n  summarise(Pop = sum(Pop), .groups = \"drop\") %&gt;%\n  arrange(desc(Pop))\n\narea_plot &lt;- ggplot(area_data, aes(x = reorder(PA, Pop), y = Pop)) +\n  geom_col(fill = \"steelblue\") +\n  coord_flip() +\n  labs(title = \"Population by Planning Area (2024)\",\n       x = \"Planning Area\", y = \"Population\") +\n  theme_minimal()\n\narea_plot\n\n\n\n\n\n\n\n\nObservations:\n\nBedok, Tampines, and Jurong West remain top residential zones.\nDowntown Core and industrial areas have lower populations."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#population-by-age-group",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#population-by-age-group",
+    "title": "Take-home Exercise 1: Singapore Resident Population 2024",
+    "section": "4.3 Population by Age Group",
+    "text": "4.3 Population by Age Group\nWe create custom age bands to evaluate demographic composition.\n\nage_group_data &lt;- data %&gt;%\n  mutate(AgeGroup = cut(Age,\n                        breaks = c(0,10,20,30,40,50,60,70,80,90,Inf),\n                        labels = c(\"0-9\", \"10-19\", \"20-29\", \"30-39\", \"40-49\",\n                                   \"50-59\", \"60-69\", \"70-79\", \"80-89\", \"90+\"),\n                        right = FALSE)) %&gt;%\n  group_by(AgeGroup) %&gt;%\n  summarise(Pop = sum(Pop), .groups = \"drop\")\n\nggplot(age_group_data, aes(x = AgeGroup, y = Pop)) +\n  geom_col(fill = \"darkgreen\") +\n  labs(title = \"Population by Age Group (2024)\", x = \"Age Group\", y = \"Population\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\nObservations:\n\nHighest population in 30–49 age range.\nSmaller youth segments may impact future workforce."
   }
 ]

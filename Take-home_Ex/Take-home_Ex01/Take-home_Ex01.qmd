@@ -3,13 +3,13 @@ title: "Take-home Exercise 1: Singapore Resident Population 2024"
 author: "FU YILIN"
 ---
 
-1 Overview
+# 1 Overview
 
-1.1 Background
+## 1.1 Background
 
 Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset `respopagesex2024.csv` contains population counts by age, sex, planning area, and subzone, based on Singapore's official population statistics for 2024. The visual analytics in this exercise aim to reveal key trends across demographics and geography.
 
-1.2 The Data
+## 1.2 The Data
 
 The dataset used is `respopagesex2024.csv` obtained from the Department of Statistics Singapore. It includes the following fields:
 
@@ -25,13 +25,13 @@ The dataset used is `respopagesex2024.csv` obtained from the Department of Stati
 
 -   Age-Sex Pyramid
 
-2 Loading Packages
+# 2 Loading Packages
 
 ```{r}
 pacman::p_load(tidyverse, ggthemes, patchwork, knitr)
 ```
 
-3 Data Preparation
+# 3 Data Preparation
 
 ```{r}
 data <- read_csv("Data/respopagesex2024.csv") %>%
@@ -39,9 +39,9 @@ data <- read_csv("Data/respopagesex2024.csv") %>%
   drop_na(Age)
 ```
 
-4 Exploratory Data Analysis
+# 4 Exploratory Data Analysis
 
-4.1 Age-Sex Pyramid
+# 4.1 Age-Sex Pyramid
 
 This population pyramid visualizes the age and gender distribution. Males are plotted on the left and females on the right, highlighting the dependency load and gender imbalance at older ages.
 
@@ -70,7 +70,7 @@ Observations:
 
 -   Lower base suggests declining birth rates.
 
-4.2 Total Population by Planning Area
+## 4.2 Total Population by Planning Area
 
 We aggregate population counts by planning area to identify high-density zones.
 
@@ -96,7 +96,7 @@ Observations:
 
 -   Downtown Core and industrial areas have lower populations.
 
-4.3 Population by Age Group
+## 4.3 Population by Age Group
 
 We create custom age bands to evaluate demographic composition.
 
