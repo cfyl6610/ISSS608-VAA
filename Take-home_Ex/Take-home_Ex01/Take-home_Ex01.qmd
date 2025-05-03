@@ -27,6 +27,16 @@ The dataset used is `respopagesex2024.csv` obtained from the Department of Stati
 
 # 2 Loading Packages
 
+Explanation of R packages used in this exercise:
+
+-   tidyverse
+
+-   ggthemes
+
+-   patchwork
+
+-   knitr
+
 ```{r}
 pacman::p_load(tidyverse, ggthemes, patchwork, knitr)
 ```
