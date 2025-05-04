@@ -7,7 +7,7 @@ author: "FU YILIN"
 
 ## 1.1 Background
 
-Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset `respopagesex2024.csv` contains population counts by age, sex, planning area, and subzone, based on Singapore's official population statistics for 2024. This research aims to uncover key trends in aging, birth rates, and spatial demographic variations using visual analytics.
+Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset `respopagesex2024.csv` contains population counts by age, sex, planning area, and subzone, based on Singapore's official population statistics for 2024. This research aims to uncover key trends in aging and spatial demographic variations using visual analytics.
 
 ## 1.2 The Data
 
@@ -156,7 +156,7 @@ pyramid_plot
 
 -   Lower base suggests declining birth rates.
 
-## 4.2 Birth Rate and Aging Population
+## 4.2 Aging Structure Across Planning Areas
 
 To better understand the spatial dynamics of population aging, we compared the total population of the **young group (aged 0–14)** and the **aging group (aged 65 and above)** across Singapore’s Planning Areas (PAs). This analysis highlights demographic imbalances by region, identifying areas where the elderly population significantly exceeds the youth population, and vice versa.
 
@@ -190,14 +190,14 @@ top_pa <- age_groups %>%
 top_age_groups <- age_groups %>%
   filter(PA %in% top_pa$PA)
 
-# Step 1: Define the order (e.g. by total population descending)
+# Define the order (e.g. by total population descending)
 pa_order <- top_age_groups %>%
   group_by(PA) %>%
   summarise(total = sum(total_pop)) %>%
   arrange(desc(total)) %>%
   pull(PA)
 
-# Step 2: Apply the same factor levels
+# Apply the same factor levels
 top_age_groups <- top_age_groups %>%
   mutate(PA = factor(PA, levels = pa_order))
 

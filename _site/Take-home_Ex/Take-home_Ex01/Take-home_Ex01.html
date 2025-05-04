@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#exploratory-data-analysis" id="toc-exploratory-data-analysis" class="nav-link" data-scroll-target="#exploratory-data-analysis">4 Exploratory Data Analysis</a>
   <ul class="collapse">
   <li><a href="#age-sex-pyramid" id="toc-age-sex-pyramid" class="nav-link" data-scroll-target="#age-sex-pyramid">4.1 Age-Sex Pyramid</a></li>
-  <li><a href="#birth-rate-and-aging-population" id="toc-birth-rate-and-aging-population" class="nav-link" data-scroll-target="#birth-rate-and-aging-population">4.2 Birth Rate and Aging Population</a></li>
+  <li><a href="#aging-structure-across-planning-areas" id="toc-aging-structure-across-planning-areas" class="nav-link" data-scroll-target="#aging-structure-across-planning-areas">4.2 Aging Structure Across Planning Areas</a></li>
   <li><a href="#age-distribution-by-region-type" id="toc-age-distribution-by-region-type" class="nav-link" data-scroll-target="#age-distribution-by-region-type">4.3 Age Distribution by Region Type</a></li>
   </ul></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">5 Summary</a></li>
@@ -282,7 +282,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>1 Overview</h1>
 <section id="background" class="level2">
 <h2 class="anchored" data-anchor-id="background">1.1 Background</h2>
-<p>Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset <code>respopagesex2024.csv</code> contains population counts by age, sex, planning area, and subzone, based on Singapore’s official population statistics for 2024. This research aims to uncover key trends in aging, birth rates, and spatial demographic variations using visual analytics.</p>
+<p>Singapore’s demographic profile provides critical insights for policy planning, urban development, and resource allocation. The dataset <code>respopagesex2024.csv</code> contains population counts by age, sex, planning area, and subzone, based on Singapore’s official population statistics for 2024. This research aims to uncover key trends in aging and spatial demographic variations using visual analytics.</p>
 </section>
 <section id="the-data" class="level2">
 <h2 class="anchored" data-anchor-id="the-data">1.2 The Data</h2>
@@ -424,23 +424,23 @@ Warning
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Planning Areas and Their Subzones"</span></span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="uvnimjpzxq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#uvnimjpzxq table {
+<div id="oadcavjjvm" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#oadcavjjvm table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#uvnimjpzxq thead, #uvnimjpzxq tbody, #uvnimjpzxq tfoot, #uvnimjpzxq tr, #uvnimjpzxq td, #uvnimjpzxq th {
+#oadcavjjvm thead, #oadcavjjvm tbody, #oadcavjjvm tfoot, #oadcavjjvm tr, #oadcavjjvm td, #oadcavjjvm th {
   border-style: none;
 }
 
-#uvnimjpzxq p {
+#oadcavjjvm p {
   margin: 0;
   padding: 0;
 }
 
-#uvnimjpzxq .gt_table {
+#oadcavjjvm .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -466,12 +466,12 @@ Warning
   border-left-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_caption {
+#oadcavjjvm .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#uvnimjpzxq .gt_title {
+#oadcavjjvm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -483,7 +483,7 @@ Warning
   border-bottom-width: 0;
 }
 
-#uvnimjpzxq .gt_subtitle {
+#oadcavjjvm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -495,7 +495,7 @@ Warning
   border-top-width: 0;
 }
 
-#uvnimjpzxq .gt_heading {
+#oadcavjjvm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -507,13 +507,13 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_bottom_border {
+#oadcavjjvm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_col_headings {
+#oadcavjjvm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -528,7 +528,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_col_heading {
+#oadcavjjvm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -548,7 +548,7 @@ Warning
   overflow-x: hidden;
 }
 
-#uvnimjpzxq .gt_column_spanner_outer {
+#oadcavjjvm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -560,15 +560,15 @@ Warning
   padding-right: 4px;
 }
 
-#uvnimjpzxq .gt_column_spanner_outer:first-child {
+#oadcavjjvm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#uvnimjpzxq .gt_column_spanner_outer:last-child {
+#oadcavjjvm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#uvnimjpzxq .gt_column_spanner {
+#oadcavjjvm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -580,11 +580,11 @@ Warning
   width: 100%;
 }
 
-#uvnimjpzxq .gt_spanner_row {
+#oadcavjjvm .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#uvnimjpzxq .gt_group_heading {
+#oadcavjjvm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -610,7 +610,7 @@ Warning
   text-align: left;
 }
 
-#uvnimjpzxq .gt_empty_group_heading {
+#oadcavjjvm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -625,15 +625,15 @@ Warning
   vertical-align: middle;
 }
 
-#uvnimjpzxq .gt_from_md > :first-child {
+#oadcavjjvm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#uvnimjpzxq .gt_from_md > :last-child {
+#oadcavjjvm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#uvnimjpzxq .gt_row {
+#oadcavjjvm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -652,7 +652,7 @@ Warning
   overflow-x: hidden;
 }
 
-#uvnimjpzxq .gt_stub {
+#oadcavjjvm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -665,7 +665,7 @@ Warning
   padding-right: 5px;
 }
 
-#uvnimjpzxq .gt_stub_row_group {
+#oadcavjjvm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -679,15 +679,15 @@ Warning
   vertical-align: top;
 }
 
-#uvnimjpzxq .gt_row_group_first td {
+#oadcavjjvm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#uvnimjpzxq .gt_row_group_first th {
+#oadcavjjvm .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#uvnimjpzxq .gt_summary_row {
+#oadcavjjvm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -697,16 +697,16 @@ Warning
   padding-right: 5px;
 }
 
-#uvnimjpzxq .gt_first_summary_row {
+#oadcavjjvm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_first_summary_row.thick {
+#oadcavjjvm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#uvnimjpzxq .gt_last_summary_row {
+#oadcavjjvm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -716,7 +716,7 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_grand_summary_row {
+#oadcavjjvm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -726,7 +726,7 @@ Warning
   padding-right: 5px;
 }
 
-#uvnimjpzxq .gt_first_grand_summary_row {
+#oadcavjjvm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -736,7 +736,7 @@ Warning
   border-top-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_last_grand_summary_row_top {
+#oadcavjjvm .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -746,11 +746,11 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_striped {
+#oadcavjjvm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#uvnimjpzxq .gt_table_body {
+#oadcavjjvm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -759,7 +759,7 @@ Warning
   border-bottom-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_footnotes {
+#oadcavjjvm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -773,7 +773,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_footnote {
+#oadcavjjvm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -782,7 +782,7 @@ Warning
   padding-right: 5px;
 }
 
-#uvnimjpzxq .gt_sourcenotes {
+#oadcavjjvm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -796,7 +796,7 @@ Warning
   border-right-color: #D3D3D3;
 }
 
-#uvnimjpzxq .gt_sourcenote {
+#oadcavjjvm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -804,72 +804,72 @@ Warning
   padding-right: 5px;
 }
 
-#uvnimjpzxq .gt_left {
+#oadcavjjvm .gt_left {
   text-align: left;
 }
 
-#uvnimjpzxq .gt_center {
+#oadcavjjvm .gt_center {
   text-align: center;
 }
 
-#uvnimjpzxq .gt_right {
+#oadcavjjvm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#uvnimjpzxq .gt_font_normal {
+#oadcavjjvm .gt_font_normal {
   font-weight: normal;
 }
 
-#uvnimjpzxq .gt_font_bold {
+#oadcavjjvm .gt_font_bold {
   font-weight: bold;
 }
 
-#uvnimjpzxq .gt_font_italic {
+#oadcavjjvm .gt_font_italic {
   font-style: italic;
 }
 
-#uvnimjpzxq .gt_super {
+#oadcavjjvm .gt_super {
   font-size: 65%;
 }
 
-#uvnimjpzxq .gt_footnote_marks {
+#oadcavjjvm .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#uvnimjpzxq .gt_asterisk {
+#oadcavjjvm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#uvnimjpzxq .gt_indent_1 {
+#oadcavjjvm .gt_indent_1 {
   text-indent: 5px;
 }
 
-#uvnimjpzxq .gt_indent_2 {
+#oadcavjjvm .gt_indent_2 {
   text-indent: 10px;
 }
 
-#uvnimjpzxq .gt_indent_3 {
+#oadcavjjvm .gt_indent_3 {
   text-indent: 15px;
 }
 
-#uvnimjpzxq .gt_indent_4 {
+#oadcavjjvm .gt_indent_4 {
   text-indent: 20px;
 }
 
-#uvnimjpzxq .gt_indent_5 {
+#oadcavjjvm .gt_indent_5 {
   text-indent: 25px;
 }
 
-#uvnimjpzxq .katex-display {
+#oadcavjjvm .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#uvnimjpzxq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#oadcavjjvm div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1148,8 +1148,8 @@ Warning
 <li><p>Lower base suggests declining birth rates.</p></li>
 </ul>
 </section>
-<section id="birth-rate-and-aging-population" class="level2">
-<h2 class="anchored" data-anchor-id="birth-rate-and-aging-population">4.2 Birth Rate and Aging Population</h2>
+<section id="aging-structure-across-planning-areas" class="level2">
+<h2 class="anchored" data-anchor-id="aging-structure-across-planning-areas">4.2 Aging Structure Across Planning Areas</h2>
 <p>To better understand the spatial dynamics of population aging, we compared the total population of the <strong>young group (aged 0–14)</strong> and the <strong>aging group (aged 65 and above)</strong> across Singapore’s Planning Areas (PAs). This analysis highlights demographic imbalances by region, identifying areas where the elderly population significantly exceeds the youth population, and vice versa.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>age_groups <span class="ot">&lt;-</span> data <span class="sc">%&gt;%</span></span>
@@ -1186,14 +1186,14 @@ Warning
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>top_age_groups <span class="ot">&lt;-</span> age_groups <span class="sc">%&gt;%</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(PA <span class="sc">%in%</span> top_pa<span class="sc">$</span>PA)</span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Define the order (e.g. by total population descending)</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the order (e.g. by total population descending)</span></span>
 <span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>pa_order <span class="ot">&lt;-</span> top_age_groups <span class="sc">%&gt;%</span></span>
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PA) <span class="sc">%&gt;%</span></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total =</span> <span class="fu">sum</span>(total_pop)) <span class="sc">%&gt;%</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total)) <span class="sc">%&gt;%</span></span>
 <span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(PA)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Apply the same factor levels</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the same factor levels</span></span>
 <span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>top_age_groups <span class="ot">&lt;-</span> top_age_groups <span class="sc">%&gt;%</span></span>
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PA =</span> <span class="fu">factor</span>(PA, <span class="at">levels =</span> pa_order))</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
