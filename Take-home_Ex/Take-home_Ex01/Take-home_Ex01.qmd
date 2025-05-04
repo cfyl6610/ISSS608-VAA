@@ -19,11 +19,20 @@ The dataset used is `respopagesex2024.csv` obtained from the Department of Stati
 
 -   Age: Age in years (0 to 100+)
 
--   Sex: Males or Females
+-   Sex: Male or Female
 
--   Pop: Population count
+-   Pop: Resident count
 
--   Age-Sex Pyramid
+-   Time: Time / Period
+
+::: {.callout-note title="Note" icon="false"}
+```         
+1) For June 2024, Planning Areas refer to areas demarcated in the Urban Redevelopment Authority's Master Plan 2019. 
+2) Data from 2003 onwards exclude residents who have been away from Singapore for a continuous period of 12 months or longer as at the reference period. 
+3) The figures have been rounded to the nearest 10. 
+4) The data may not add up due to rounding.
+```
+:::
 
 # 2 Loading Packages
 
