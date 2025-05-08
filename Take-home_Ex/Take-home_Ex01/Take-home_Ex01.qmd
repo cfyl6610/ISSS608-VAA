@@ -106,7 +106,7 @@ Result suggests that there are no fully duplicate rows in this dataset.
 
 After cleaning, 60,424 valid records remain for analysis. No duplicate entries were detected. Non-numeric age entries, likely representing summary rows such as ‘Total’, were excluded.
 
-## 3.3 Subzone Summary 
+## 3.3 Subzone Summary
 
 The code chunk below creates a summary table that shows all subzones belonging to each planning area, displayed cleanly using the `gt()` package for better readability. It’s useful for understanding the structure and granularity of the geographic data.
 
