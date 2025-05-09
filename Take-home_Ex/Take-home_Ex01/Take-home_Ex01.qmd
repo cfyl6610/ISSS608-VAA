@@ -3,6 +3,8 @@ title: "Take-home Exercise 1 - Understanding Singapore's Demographic Landscape: 
 author: "FU YILIN"
 ---
 
+# Part 1:
+
 # 1 Overview
 
 ## 1.1 Background
@@ -331,3 +333,5 @@ Singapore's 2024 demographic landscape is defined by a mature population with a 
 
 -   Department of Statistics Singapore. (2024). Resident Population by Age, Sex and Planning Area/Subzone. https://www.singstat.gov.sg/
 -   Wikipedia contributors. (2024). Regions of Singapore. [https://en.wikipedia.org/wiki/Regions_of_Singaporehttps://en.wikipedia.org/wiki/Regions_of_Singapore](https://en.wikipedia.org/wiki/Regions_of_Singapore)
+
+# Part 2: Learn from Peers
