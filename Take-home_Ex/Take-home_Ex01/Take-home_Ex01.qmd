@@ -335,3 +335,146 @@ Singapore's 2024 demographic landscape is defined by a mature population with a 
 -   Wikipedia contributors. (2024). Regions of Singapore. [https://en.wikipedia.org/wiki/Regions_of_Singaporehttps://en.wikipedia.org/wiki/Regions_of_Singapore](https://en.wikipedia.org/wiki/Regions_of_Singapore)
 
 # Part 2: Learn from Peers
+
+Reference: [Peer's Submission](https://isss-608-yihao-yuan.netlify.app/take-home_ex/take-home_ex01/take-home_ex01#population-by-age-group-and-planning-area-analyze-the-number-of-the-aging-population-in-each-region.)
+
+## 1 Original Submission
+
+```{r}
+
+res_data_grouped <- data %>%
+  mutate(AgeGroup = case_when(
+    Age >= 0 & Age <= 20 ~ "Under Age",
+    Age >= 21 & Age <= 60 ~ "Adult",
+    Age >= 61 ~ "Aging"
+  )) %>%
+  group_by(PA, AgeGroup) %>%
+  summarise(Pop = sum(Pop, na.rm = TRUE), .groups = "drop")
+
+res_data_grouped_filtered <- res_data_grouped %>%
+  filter(AgeGroup != "Adult")
+
+age_summary <- res_data_grouped %>%
+  filter(AgeGroup %in% c("Under Age", "Aging")) %>%
+  group_by(PA, AgeGroup) %>%
+  summarise(Total = sum(Pop), .groups = "drop")
+
+
+age_ratio <- age_summary %>%
+  tidyr::pivot_wider(names_from = AgeGroup, values_from = Total) %>%
+  mutate(ratio = Aging / `Under Age`)
+
+ggplot(age_ratio, aes(x = ratio, y = reorder(PA, ratio))) +
+  geom_col(fill = "steelblue") +
+  labs(
+    title = "Aging-to-Under-Age Population Ratio by Planning Area",
+    x = "Aging / Under Age Ratio",
+    y = "Planning Area"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 5),
+    plot.title = element_text(face = "bold")
+  )
+```
+
+## **2 Three Good Design Principles Applied**
+
+-   **Clear Title and Labels**
+
+    -   The title clearly describes the data being presented: “Aging-to-Under-Age Population Ratio by Planning Area.”
+
+    -   Axis labels are descriptive, making the visual easily understandable.
+
+-   **Horizontal Bar Chart for Easy Comparison**
+
+    -   The use of a horizontal bar chart effectively displays the aging-to-under-age ratio by planning area, allowing easy comparison across areas.
+
+-   **Sorted Order for Better Analysis**
+
+    -   Planning areas are sorted by the aging-to-under-age ratio, making it easy to identify areas with the highest and lowest ratios.
+
+## **3 Three Areas for Further Improvement**
+
+-   **Enhanced Visualization**
+
+    A gradient color scheme from light blue (low ratio) to dark red (high ratio) enhances visual clarity, showing which areas have a higher aging population.
+
+-   **Optimized Annotations**
+
+    -   A dashed vertical line at ratio = 1 indicates a balanced population between the aging and under-age groups.
+
+    -   The highest and lowest ratios are directly annotated, making it easy to identify critical areas.
+
+-   **Filter Areas with No Values**
+
+    Areas with zero values (no data) have been removed from the visualization, ensuring only meaningful data is displayed.
+
+## **4 Makeover Version**
+
+```{r,fig.width=12, fig.height=8}
+# Grouping Data into Age Categories
+data <- data %>%
+  mutate(AgeGroup = case_when(
+    Age >= 0 & Age <= 20 ~ "Under Age",
+    Age >= 21 & Age <= 60 ~ "Adult",
+    Age >= 61 ~ "Aging"
+  ))
+
+# Calculating Population by Age Group for Each Planning Area
+res_data_grouped <- data %>%
+  group_by(PA, AgeGroup) %>%
+  summarise(Pop = sum(Pop, na.rm = TRUE), .groups = "drop")
+
+# Filtering Only "Under Age" and "Aging"
+res_data_filtered <- res_data_grouped %>%
+  filter(AgeGroup != "Adult")
+
+# Pivoting Data to Calculate Aging-to-Under-Age Ratio
+age_summary <- res_data_filtered %>%
+  pivot_wider(names_from = AgeGroup, values_from = Pop, values_fill = 0) %>%
+  mutate(ratio = Aging / `Under Age`) %>%
+  filter(!is.na(ratio))
+
+# Sorting by Ratio for Better Visualization
+age_summary <- age_summary %>% arrange(ratio)
+
+# Calculate Dynamic Plot Height (1.2 times number of planning areas)
+plot_height <- nrow(age_summary) * 0.3
+
+# Create the Enhanced Plot
+p <- ggplot(age_summary, aes(x = ratio, y = reorder(PA, ratio), fill = ratio)) +
+  geom_col() +
+  scale_fill_gradient(low = "lightblue", high = "darkred") +
+  geom_vline(xintercept = 1, color = "gray", linetype = "dashed") +
+  geom_text(aes(label = ifelse(ratio == max(ratio, na.rm = TRUE), 
+                               paste("Highest:", round(ratio, 2)), 
+                               ifelse(ratio == min(ratio, na.rm = TRUE) & ratio > 0, 
+                                      paste("Lowest:", round(ratio, 2)), 
+                                      ""))), 
+            hjust = -0.1, size = 3.5, color = "black") +
+  labs(
+    title = "Enhanced Aging-to-Under-Age Population Ratio by Planning Area",
+    x = "Aging / Under Age Ratio",
+    y = "Planning Area"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, hjust = 0.5),
+    axis.text.y = element_text(size = 10, hjust = 1, margin = margin(r = 8)),
+    axis.text.x = element_text(size = 10),
+    plot.margin = margin(1, 2, 1, 6, "cm"),
+    legend.position = "none"
+  ) +
+  coord_cartesian(clip = "off", ylim = c(1, nrow(age_summary)))
+
+# Display the Plot
+p
+
+```
+
+::: {.callout-note title="Note"}
+**`mutate(ratio = Aging / Under Age)`:** Calculates the ratio of the aging population to the under-age population for each planning area.
+
+**`filter(!is.na(ratio))`:** Removes any rows where the ratio calculation is not possible (e.g., missing values).
+:::

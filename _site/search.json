@@ -404,5 +404,33 @@
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#original-submission",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#original-submission",
+    "title": "Take-home Exercise 1 - Understanding Singapore’s Demographic Landscape: Population Age Structure and Spatial Patterns in 2024",
+    "section": "1 Original Submission",
+    "text": "1 Original Submission\n\nres_data_grouped &lt;- data %&gt;%\n  mutate(AgeGroup = case_when(\n    Age &gt;= 0 & Age &lt;= 20 ~ \"Under Age\",\n    Age &gt;= 21 & Age &lt;= 60 ~ \"Adult\",\n    Age &gt;= 61 ~ \"Aging\"\n  )) %&gt;%\n  group_by(PA, AgeGroup) %&gt;%\n  summarise(Pop = sum(Pop, na.rm = TRUE), .groups = \"drop\")\n\nres_data_grouped_filtered &lt;- res_data_grouped %&gt;%\n  filter(AgeGroup != \"Adult\")\n\nage_summary &lt;- res_data_grouped %&gt;%\n  filter(AgeGroup %in% c(\"Under Age\", \"Aging\")) %&gt;%\n  group_by(PA, AgeGroup) %&gt;%\n  summarise(Total = sum(Pop), .groups = \"drop\")\n\n\nage_ratio &lt;- age_summary %&gt;%\n  tidyr::pivot_wider(names_from = AgeGroup, values_from = Total) %&gt;%\n  mutate(ratio = Aging / `Under Age`)\n\nggplot(age_ratio, aes(x = ratio, y = reorder(PA, ratio))) +\n  geom_col(fill = \"steelblue\") +\n  labs(\n    title = \"Aging-to-Under-Age Population Ratio by Planning Area\",\n    x = \"Aging / Under Age Ratio\",\n    y = \"Planning Area\"\n  ) +\n  theme_minimal() +\n  theme(\n    axis.text.y = element_text(size = 5),\n    plot.title = element_text(face = \"bold\")\n  )\n\nWarning: Removed 13 rows containing missing values or values outside the scale range\n(`geom_col()`)."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#three-good-design-principles-applied",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#three-good-design-principles-applied",
+    "title": "Take-home Exercise 1 - Understanding Singapore’s Demographic Landscape: Population Age Structure and Spatial Patterns in 2024",
+    "section": "2 Three Good Design Principles Applied",
+    "text": "2 Three Good Design Principles Applied\n\nClear Title and Labels\n\nThe title clearly describes the data being presented: “Aging-to-Under-Age Population Ratio by Planning Area.”\nAxis labels are descriptive, making the visual easily understandable.\n\nHorizontal Bar Chart for Easy Comparison\n\nThe use of a horizontal bar chart effectively displays the aging-to-under-age ratio by planning area, allowing easy comparison across areas.\n\nSorted Order for Better Analysis\n\nPlanning areas are sorted by the aging-to-under-age ratio, making it easy to identify areas with the highest and lowest ratios."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#three-areas-for-further-improvement",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#three-areas-for-further-improvement",
+    "title": "Take-home Exercise 1 - Understanding Singapore’s Demographic Landscape: Population Age Structure and Spatial Patterns in 2024",
+    "section": "3 Three Areas for Further Improvement",
+    "text": "3 Three Areas for Further Improvement\n\nEnhanced Visualization\nA gradient color scheme from light blue (low ratio) to dark red (high ratio) enhances visual clarity, showing which areas have a higher aging population.\nOptimized Annotations\n\nA dashed vertical line at ratio = 1 indicates a balanced population between the aging and under-age groups.\nThe highest and lowest ratios are directly annotated, making it easy to identify critical areas.\n\nFilter Areas with No Values\nAreas with zero values (no data) have been removed from the visualization, ensuring only meaningful data is displayed."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#makeover-version",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#makeover-version",
+    "title": "Take-home Exercise 1 - Understanding Singapore’s Demographic Landscape: Population Age Structure and Spatial Patterns in 2024",
+    "section": "4 Makeover Version",
+    "text": "4 Makeover Version\n\n# Grouping Data into Age Categories\ndata &lt;- data %&gt;%\n  mutate(AgeGroup = case_when(\n    Age &gt;= 0 & Age &lt;= 20 ~ \"Under Age\",\n    Age &gt;= 21 & Age &lt;= 60 ~ \"Adult\",\n    Age &gt;= 61 ~ \"Aging\"\n  ))\n\n# Calculating Population by Age Group for Each Planning Area\nres_data_grouped &lt;- data %&gt;%\n  group_by(PA, AgeGroup) %&gt;%\n  summarise(Pop = sum(Pop, na.rm = TRUE), .groups = \"drop\")\n\n# Filtering Only \"Under Age\" and \"Aging\"\nres_data_filtered &lt;- res_data_grouped %&gt;%\n  filter(AgeGroup != \"Adult\")\n\n# Pivoting Data to Calculate Aging-to-Under-Age Ratio\nage_summary &lt;- res_data_filtered %&gt;%\n  pivot_wider(names_from = AgeGroup, values_from = Pop, values_fill = 0) %&gt;%\n  mutate(ratio = Aging / `Under Age`) %&gt;%\n  filter(!is.na(ratio))\n\n# Sorting by Ratio for Better Visualization\nage_summary &lt;- age_summary %&gt;% arrange(ratio)\n\n# Calculate Dynamic Plot Height (1.2 times number of planning areas)\nplot_height &lt;- nrow(age_summary) * 0.3\n\n# Create the Enhanced Plot\np &lt;- ggplot(age_summary, aes(x = ratio, y = reorder(PA, ratio), fill = ratio)) +\n  geom_col() +\n  scale_fill_gradient(low = \"lightblue\", high = \"darkred\") +\n  geom_vline(xintercept = 1, color = \"gray\", linetype = \"dashed\") +\n  geom_text(aes(label = ifelse(ratio == max(ratio, na.rm = TRUE), \n                               paste(\"Highest:\", round(ratio, 2)), \n                               ifelse(ratio == min(ratio, na.rm = TRUE) & ratio &gt; 0, \n                                      paste(\"Lowest:\", round(ratio, 2)), \n                                      \"\"))), \n            hjust = -0.1, size = 3.5, color = \"black\") +\n  labs(\n    title = \"Enhanced Aging-to-Under-Age Population Ratio by Planning Area\",\n    x = \"Aging / Under Age Ratio\",\n    y = \"Planning Area\"\n  ) +\n  theme_minimal() +\n  theme(\n    plot.title = element_text(face = \"bold\", size = 16, hjust = 0.5),\n    axis.text.y = element_text(size = 10, hjust = 1, margin = margin(r = 8)),\n    axis.text.x = element_text(size = 10),\n    plot.margin = margin(1, 2, 1, 6, \"cm\"),\n    legend.position = \"none\"\n  ) +\n  coord_cartesian(clip = \"off\", ylim = c(1, nrow(age_summary)))\n\n# Display the Plot\np\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nmutate(ratio = Aging / Under Age): Calculates the ratio of the aging population to the under-age population for each planning area.\nfilter(!is.na(ratio)): Removes any rows where the ratio calculation is not possible (e.g., missing values)."
   }
 ]
