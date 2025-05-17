@@ -516,5 +516,61 @@
     "title": "Hands-on Exercise 5",
     "section": "7. Building Interactive Network Graph with visNetwork",
     "text": "7. Building Interactive Network Graph with visNetwork\n\n7.1 Data preparation\nPreparing data for an interactive network with visNetwork.\n\nGAStech_edges_aggregated &lt;- GAStech_edges %&gt;%\n  left_join(GAStech_nodes, by = c(\"sourceLabel\" = \"label\")) %&gt;%\n  rename(from = id) %&gt;%\n  left_join(GAStech_nodes, by = c(\"targetLabel\" = \"label\")) %&gt;%\n  rename(to = id) %&gt;%\n  filter(MainSubject == \"Work related\") %&gt;%\n  group_by(from, to) %&gt;%\n    summarise(weight = n()) %&gt;%\n  filter(from!=to) %&gt;%\n  filter(weight &gt; 1) %&gt;%\n  ungroup()\n\n`summarise()` has grouped output by 'from'. You can override using the\n`.groups` argument.\n\n\n\n\n7.2 Plotting the first interactive network graph\nVisualizing an interactive network with customizable layout and interactivity.\n\nvisNetwork(GAStech_nodes, \n           GAStech_edges_aggregated)\n\n\n\n\n\n\n\n7.3 Working with layout\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %&gt;%\n  visIgraphLayout(layout = \"layout_with_fr\") \n\n\n\n\n\n\n\n7.4 Working with visual attributes - Nodes\n\nGAStech_nodes &lt;- GAStech_nodes %&gt;%\n  rename(group = Department) \n\nWhen we rerun the code chunk below, visNetwork shades the nodes by assigning unique colour to each category in the group field.\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %&gt;%\n  visIgraphLayout(layout = \"layout_with_fr\") %&gt;%\n  visLegend() %&gt;%\n  visLayout(randomSeed = 123)\n\n\n\n\n\n\n\n7.5 Working with visual attributes - Edges\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %&gt;%\n  visIgraphLayout(layout = \"layout_with_fr\") %&gt;%\n  visEdges(arrows = \"to\", \n           smooth = list(enabled = TRUE, \n                         type = \"curvedCW\")) %&gt;%\n  visLegend() %&gt;%\n  visLayout(randomSeed = 123)\n\n\n\n\n\n\n\n7.6 Interactivity\n\nvisNetwork(GAStech_nodes,\n           GAStech_edges_aggregated) %&gt;%\n  visIgraphLayout(layout = \"layout_with_fr\") %&gt;%\n  visOptions(highlightNearest = TRUE,\n             nodesIdSelection = TRUE) %&gt;%\n  visLegend() %&gt;%\n  visLayout(randomSeed = 123)"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "",
+    "text": "pacman::p_load(igraph, tidygraph, ggraph, \n               visNetwork, lubridate, clock,\n               tidyverse, graphlayouts, \n               concaveman, ggforce, jsonlite, dplyr, SmartEDA)"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#load-packages",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#load-packages",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "",
+    "text": "pacman::p_load(igraph, tidygraph, ggraph, \n               visNetwork, lubridate, clock,\n               tidyverse, graphlayouts, \n               concaveman, ggforce, jsonlite, dplyr, SmartEDA)"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#import-data",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#import-data",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "Import Data",
+    "text": "Import Data\n\nkg &lt;- fromJSON(\"data/MC1_graph.json\")"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#inspect-structure",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#inspect-structure",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "Inspect Structure",
+    "text": "Inspect Structure\n\nstr(kg, max.level = 1)\n\nList of 5\n $ directed  : logi TRUE\n $ multigraph: logi TRUE\n $ graph     :List of 2\n $ nodes     :'data.frame': 17412 obs. of  10 variables:\n $ links     :'data.frame': 37857 obs. of  4 variables:"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#extract-and-inspect",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#extract-and-inspect",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "Extract and inspect",
+    "text": "Extract and inspect\n\nnodes_tbl &lt;- as_tibble(kg$nodes)\nedges_tbl &lt;- as_tibble(kg$links)"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#initial-eda",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#initial-eda",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "Initial EDA",
+    "text": "Initial EDA\n\nggplot(data = edges_tbl, aes(y = `Edge Type`)) + \n  geom_bar() +\n  labs(title = \"Distribution of Edge Types\",\n       y = \"Edge Type\",\n       x = \"Count\") +\n  theme_minimal()\n\n\n\n\n\n\n\n\n\nid_map &lt;- tibble(id = nodes_tbl$id,\n                 index = seq_len(\n                   nrow(nodes_tbl)))\n\n\nStep 2: Map source and target IDs to row indices\n\nedges_tbl &lt;- edges_tbl %&gt;%\n  left_join(id_map, by = c(\"source\" = \"id\")) %&gt;%\n  rename(from = index) %&gt;%\n  left_join(id_map, by = c(\"target\" = \"id\")) %&gt;%\n  rename(to = index)\n\n\n\nStep 3: Filter out any unmatched (invalid) edges\n\nedges_tbl &lt;- edges_tbl %&gt;%\n  filter(!is.na(source), is.na(target))\n\n\n\nStep 4: Creating the graph"
+  },
+  {
+    "objectID": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#visualing-the-knowledge-graph",
+    "href": "In-Class_Ex/Lesson 5/In-Class Ex_Lesson05.html#visualing-the-knowledge-graph",
+    "title": "In-Class Exercise (Lesson 5)",
+    "section": "visualing the knowledge graph",
+    "text": "visualing the knowledge graph\n\ngraph &lt;- tbl_graph(nodes = nodes_tbl,\n                   edges = edges_tbl,\n                   directed = kg$directed)\n\n\nset.seed(1234)\n\n\nVisualizing the whole Graph\n\n#| eval: false\nggraph(graph, layout = \"fr\") +\n  geom_edge_link(alpha = 0.3,\n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`),\n                  size = 4) +\n  geom_node_text(aes(label = name),\n                 repel = TRUE,\n                 size = 2.5) +\n  theme_void()\n\nWarning: ggrepel: 17411 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\n\n\n\n\n\n\n\n\nStep 1: Filter edges to only “Memberof”\n\ngraph_memberof &lt;- graph %&gt;%\n  activate(edges) %&gt;%\n  filter(`Edge Type` == \"Memberof\")\n\n\n\nStep 2: Extract only connected nodes\n\nused_node_indices &lt;- graph_memberof %&gt;% \n  activate(edges) %&gt;%\n  as_tibble() %&gt;%\n  select(from, to) %&gt;%\n  unlist() %&gt;%\n  unique()\n\n\n\nStep 3: Keep only those nodes\n\ngraph_memberof &lt;- graph_memberof %&gt;%\n  activate(nodes) %&gt;%\n  mutate(row_id = row_number()) %&gt;%\n  filter(row_id %in% used_node_indices) %&gt;%\n  select(-row_id) \n\n\n\nPlot the sub-graph\n\nggraph(graph_memberof,\n       layout = \"fr\") +\n  geom_edge_link(alpha = 0.5,\n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`),\n                  size = 1) +\n  geom_node_text(aes(label = name),\n                 repel = TRUE,\n                 size = 2.5) +\n  theme_void()"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html",
+    "title": "Take-home Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(igraph, tidygraph, ggraph, \n               visNetwork, lubridate, clock,\n               tidyverse, graphlayouts, \n               concaveman, ggforce, jsonlite, dplyr, SmartEDA)\n\nImport Data\n\nt_data &lt;- fromJSON(\"data/MC1_graph.json\")\n\n\nnodes &lt;- t_data$nodes\n\n\nedges &lt;- t_data$links"
   }
 ]
