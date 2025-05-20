@@ -656,5 +656,47 @@
     "title": "Hands-on Exercise 6",
     "section": "Plotting Slopegraph",
     "text": "Plotting Slopegraph\n\nStep 1: Data Import\n\nrice &lt;- read_csv(\"data/rice.csv\")\n\nRows: 550 Columns: 4\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (1): Country\ndbl (3): Year, Yield, Production\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n\nStep 2: Plotting the slopegraph\n\nrice %&gt;% \n  mutate(Year = factor(Year)) %&gt;%\n  filter(Year %in% c(1961, 1980)) %&gt;%\n  newggslopegraph(Year, Yield, Country,\n                Title = \"Rice Yield of Top 11 Asian Counties\",\n                SubTitle = \"1961-1980\",\n                Caption = \"Prepared by: FU YILIN\")\n\n\nConverting 'Year' to an ordered factor"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#load-packages",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#load-packages",
+    "title": "Take-home Exercise 2",
+    "section": "Load Packages",
+    "text": "Load Packages\n\npacman::p_load(igraph, tidygraph, ggraph, \n               visNetwork, lubridate, clock,\n               tidyverse, graphlayouts, \n               concaveman, ggforce, jsonlite, dplyr, SmartEDA)"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#import-data",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#import-data",
+    "title": "Take-home Exercise 2",
+    "section": "Import Data",
+    "text": "Import Data\n\nkg &lt;- fromJSON(\"data/MC1_graph.json\")"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#inspect-structure",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#inspect-structure",
+    "title": "Take-home Exercise 2",
+    "section": "Inspect Structure",
+    "text": "Inspect Structure\n\nstr(kg, max.level = 1)\n\nList of 5\n $ directed  : logi TRUE\n $ multigraph: logi TRUE\n $ graph     :List of 2\n $ nodes     :'data.frame': 17412 obs. of  10 variables:\n $ links     :'data.frame': 37857 obs. of  4 variables:"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#extracting-the-edges-and-nodes-tables",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#extracting-the-edges-and-nodes-tables",
+    "title": "Take-home Exercise 2",
+    "section": "Extracting the edges and nodes tables",
+    "text": "Extracting the edges and nodes tables\n\nnodes_tbl &lt;- as_tibble(kg$nodes)\nedges_tbl &lt;- as_tibble(kg$links) \n\n\nInitial EDA\n\nggplot(data = edges_tbl,\n       aes(y = `Edge Type`)) +\n  geom_bar()\n\n\n\n\n\n\n\n\nThe code chunk below uses ggplot2 functions to reveal the frequency distribution of Node Type field of nodes_tbl.\n\nggplot(data = nodes_tbl,\n       aes(y = `Node Type`)) +\n  geom_bar()"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#creating-knowledge-graph",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#creating-knowledge-graph",
+    "title": "Take-home Exercise 2",
+    "section": "Creating Knowledge Graph",
+    "text": "Creating Knowledge Graph\n\nMapping from node id to row index\n\nid_map &lt;- tibble(id = nodes_tbl$id,\n                 index = seq_len(\n                   nrow(nodes_tbl)))\n\n\n\nMap source and target IDs to row indices\n\nedges_tbl &lt;- edges_tbl %&gt;%\n  left_join(id_map, by = c(\"source\" = \"id\")) %&gt;%\n  rename(from = index) %&gt;%\n  left_join(id_map, by = c(\"target\" = \"id\")) %&gt;%\n  rename(to = index)\n\n\n\nFilter out any unmatched (invalid) edges\n\nedges_tbl &lt;- edges_tbl %&gt;%\n  filter(!is.na(from), !is.na(to))\n\n\n\nCreating tidygraph\n\ngraph &lt;- tbl_graph(nodes = nodes_tbl, \n                   edges = edges_tbl, \n                   directed = kg$directed)\n\n\nclass(graph)\n\n[1] \"tbl_graph\" \"igraph\""
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#visualising-the-knowledge-graph",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#visualising-the-knowledge-graph",
+    "title": "Take-home Exercise 2",
+    "section": "Visualising the knowledge graph",
+    "text": "Visualising the knowledge graph\n\nset.seed(1234)\n\n\nVisualising the whole graph\n\nggraph(graph, layout = \"fr\") +\n  geom_edge_link(alpha = 0.3, \n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`), \n                  size = 4) +\n  geom_node_text(aes(label = name), \n                 repel = TRUE, \n                 size = 2.5) +\n  theme_void()\n\nWarning: ggrepel: 17411 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps\n\n\n\n\n\n\n\n\n\n\n\nVisualising the sub-graph\n\nFiltering edges to only “MemberOf”\n\ngraph_memberof &lt;- graph %&gt;%\n  activate(edges) %&gt;%\n  filter(`Edge Type` == \"MemberOf\")\n\n\n\nExtracting only connected nodes (i.e., used in these edges)\n\nused_node_indices &lt;- graph_memberof %&gt;%\n  activate(edges) %&gt;%\n  as_tibble() %&gt;%\n  select(from, to) %&gt;%\n  unlist() %&gt;%\n  unique()\n\n\n\nKeeping only those nodes\n\ngraph_memberof &lt;- graph_memberof %&gt;%\n  activate(nodes) %&gt;%\n  mutate(row_id = row_number()) %&gt;%\n  filter(row_id %in% used_node_indices) %&gt;%\n  select(-row_id)  # optional cleanup\n\n\n\nPlotting the sub-graph\n\nggraph(graph_memberof, \n       layout = \"fr\") +\n  geom_edge_link(alpha = 0.5, \n                 colour = \"gray\") +\n  geom_node_point(aes(color = `Node Type`), \n                  size = 1) +\n  geom_node_text(aes(label = name), \n                 repel = TRUE, \n                 size = 2.5) +\n  theme_void()\n\nWarning: ggrepel: 790 unlabeled data points (too many overlaps). Consider\nincreasing max.overlaps"
   }
 ]
