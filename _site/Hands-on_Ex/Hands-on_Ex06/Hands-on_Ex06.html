@@ -521,6 +521,7 @@ dttm (1): timestamp
 </section>
 <section id="building-multiple-calendar-heatmaps" class="level3">
 <h3 class="anchored" data-anchor-id="building-multiple-calendar-heatmaps">Building Multiple Calendar Heatmaps</h3>
+<p><strong>Challenge:</strong>&nbsp;Building multiple heatmaps for the top four countries with the highest number of attacks.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>grouped <span class="ot">&lt;-</span> attacks <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(source_country, wkday, hour) <span class="sc">%&gt;%</span> </span>
@@ -568,6 +569,8 @@ dttm (1): timestamp
 </section>
 <section id="plotting-multiple-calendar-heatmaps" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-multiple-calendar-heatmaps">Plotting Multiple Calendar Heatmaps</h3>
+<section id="step-by-step-instructions" class="level4">
+<h4 class="anchored" data-anchor-id="step-by-step-instructions">Step-by-step instructions</h4>
 <p>Step 1: Deriving attack by country object</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>attacks_by_country <span class="ot">&lt;-</span> <span class="fu">count</span>(</span>
@@ -586,6 +589,7 @@ dttm (1): timestamp
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    source_country, <span class="at">levels =</span> top4)) <span class="sc">%&gt;%</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</section>
 </section>
 <section id="plotting-multiple-calendar-heatmaps-1" class="level3">
 <h3 class="anchored" data-anchor-id="plotting-multiple-calendar-heatmaps-1">Plotting Multiple Calendar Heatmaps</h3>
